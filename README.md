@@ -3,7 +3,7 @@
 A library for reading INI files. Has configure options using flags.
 Windows & Linux newlines supported.
 
-## Example
+## Examples
 
 Some examples to help you get started.
 
@@ -44,22 +44,46 @@ INI_WriteFile(handle, stdout);
 INI_Free(handle); // Delete handle
 ```
 
-## Read INI file and print value of key to stdout
+### Read INI file and print value of key to stdout
 
 ```C
 INI handle;
 INI_New(&handle);
 
-if (!INI_ReadFilePath(handle, "file.ini"))
+if (!INI_ReadFilePath(&handle, "file.ini"))
   {
     // Error handling ...
   }
 
 const char * value;
-if (!(value = INI_GetString(handle, NULL, "do_tests")))
+if (!(value = INI_GetString(&handle, NULL, "do_tests")))
   {
     // Error handling ...
   }
 
 puts(value);
+
+INI_Free(&handle);
+```
+
+### Write INI data to string and read it again
+
+```C
+INI handle;
+INI_New(&handle);
+
+// Manipulate data of handle (Add strings and so on)
+
+char * str_result; // We need to free this variable again
+INI_WriteString(&handle, &str_result);
+
+// Reload handle
+INI_Free(&handle);
+INI_New(&handle);
+
+// Load data from string
+INI_ReadString(&handle, str_result);
+free(str_result);
+
+INI_Free(&handle);
 ```
