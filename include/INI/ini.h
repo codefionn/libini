@@ -54,7 +54,18 @@ extern "C" {
 # define INIAPI extern
 #endif
 
+/*! @brief You shouldn't use this definition.
+ *         If an INI structure has this alloc type,
+ *         the direct memory reference shall not be freed
+ *         (within INI*Free).
+ */
 #define _INI_ALLOC_TYPE_EXTERN  0
+
+/*! @brief You shouldn't use this definition.
+ *         If an INI structure has this alloc type,
+ *         the direct memory reference shall be freed
+ *         (within INI*Free).
+ */
 #define _INI_ALLOC_TYPE_API     1
 
 /* ::INI_pair */
@@ -447,13 +458,79 @@ bool INI_WriteFilePath(INI* handle, const char * path);
 
 /* Iterator */
 
-typedef struct INI_iterator
+/*! @brief An iterator for iterating through sections or pairs.
+ *         Can only be one type: Either created from a INI handle
+ *         OR a section.
+ */
+typedef struct INI_iter
 {
-  /* Memory management type (API/EXTERN). */
+  /*! @brief Memory management type (API/EXTERN).    */
   uint8_t alloc_type;
+  /*! @brief Position in the indexing array          */
   uint16_t indexing_pos;
+  /*! @brief Positing in the array of pairs/sections */
   size_t pos;
-} INI_iterator;
+
+  /*! @brief Type of the iterator                    */
+  uint8_t fp_type;
+  /*! @brief Pointer to either a handle or a section */
+  void * fp;
+} INI_iter;
+
+/*! @brief Creates iterator from handle. This allows you to use
+ *         INI_iter_NextSection with the iterator.
+ *
+ *  @param it If not NULL, memory of the iterator won't be managed by the API,
+ *            so you won't have to call INI_iter_Free.
+ *  @param handle Iterates through the handle's sections.
+ *
+ *  @return Returns a new iterator. Not newly allocated if it was not NULL.
+ */
+INIAPI
+INI_iter* INI_iter_FromHandle(INI_iter* it, INI* handle);
+
+/*! @brief Creates iterator from section. This allows you to use
+ *         INI_iter_NextPair with the iterator.
+ *
+ *  @param it If not NULL, memory of the iterator won't be managed by the API,
+ *            so you won't have to call INI_iter_Free.
+ *  @param section Iterates through the section's pairs.
+ *
+ *  @return Returns a new iterator. Not newly allocated if it was not NULL.
+ */
+INIAPI
+INI_iter* INI_iter_FromSection(INI_iter* it, INI_section* section);
+
+/*! @brief This function doesn't have to be called because
+ *         if the iterator falls out of scope the memory will be cleaned
+ *         up anyway. If the iterator was allocated by the API
+ *         (e.g. INI_iter* it = INI_iter_FromHandle(NULL, handle) ), then
+ *         this function has to be called.
+ *
+ *  @param it Iterator to deallocate
+ */
+INIAPI
+void INI_iter_Free(INI_iter* it);
+
+/*! @brief Get next section of the iterator.
+ *
+ *  @param it The iterator to use. Should have been created with
+ *            INI_iter_FromHandle
+ *
+ *  @return Returns NULL if no sections are available anymore.
+ */
+INIAPI
+INI_section* INI_iter_NextSection(INI_iter* it);
+
+/*! @brief Get next apir of the iterator.
+ *
+ *  @param it The iterator to use. Should have been created with
+ *            INI_iter_FromSection
+ *  
+ *  @return Returns NULL if no pairs are available anymore.
+ */
+INIAPI
+INI_pair* INI_iter_NextPair(INI_iter* it);
 
 #ifdef __cplusplus
 }

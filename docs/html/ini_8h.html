@@ -119,6 +119,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_n_i.html">INI</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The handler for <a class="el" href="struct_i_n_i.html" title="The handler for INI the format (a configuration) ">INI</a> the format (a configuration)  <a href="struct_i_n_i.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_n_i__iter.html">INI_iter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator for iterating through sections or pairs. Can only be one type: Either created from a <a class="el" href="struct_i_n_i.html" title="The handler for INI the format (a configuration) ">INI</a> handle OR a section.  <a href="struct_i_n_i__iter.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -126,10 +129,12 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>INIAPI</b>&#160;&#160;&#160;extern</td></tr>
 <tr class="separator:a5259f96b3a63fa9b862810d77eca97c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45cf446d1bd1f2d96396aebaa25ab204"><td class="memItemLeft" align="right" valign="top"><a id="a45cf446d1bd1f2d96396aebaa25ab204"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>_INI_ALLOC_TYPE_EXTERN</b>&#160;&#160;&#160;0</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a45cf446d1bd1f2d96396aebaa25ab204">_INI_ALLOC_TYPE_EXTERN</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a45cf446d1bd1f2d96396aebaa25ab204"><td class="mdescLeft">&#160;</td><td class="mdescRight">You shouldn't use this definition. If an <a class="el" href="struct_i_n_i.html" title="The handler for INI the format (a configuration) ">INI</a> structure has this alloc type, the direct memory reference shall not be freed (within INI*Free). <br /></td></tr>
 <tr class="separator:a45cf446d1bd1f2d96396aebaa25ab204"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4586bd6dbf2273aac1dd275ad858042d"><td class="memItemLeft" align="right" valign="top"><a id="a4586bd6dbf2273aac1dd275ad858042d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>_INI_ALLOC_TYPE_API</b>&#160;&#160;&#160;1</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a4586bd6dbf2273aac1dd275ad858042d">_INI_ALLOC_TYPE_API</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a4586bd6dbf2273aac1dd275ad858042d"><td class="mdescLeft">&#160;</td><td class="mdescRight">You shouldn't use this definition. If an <a class="el" href="struct_i_n_i.html" title="The handler for INI the format (a configuration) ">INI</a> structure has this alloc type, the direct memory reference shall be freed (within INI*Free). <br /></td></tr>
 <tr class="separator:a4586bd6dbf2273aac1dd275ad858042d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb8bc8864236f72fcfbd220ae19e44f5"><td class="memItemLeft" align="right" valign="top"><a id="afb8bc8864236f72fcfbd220ae19e44f5"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#afb8bc8864236f72fcfbd220ae19e44f5">INI_FLAG_VERBOSE</a>&#160;&#160;&#160;0x0001</td></tr>
@@ -185,6 +190,10 @@ typedef struct <a class="el" href="struct_i_n_i.html">INI</a>&#160;</td><td clas
 <tr class="memitem:a00b741a59a591f4ed3b8b6ff0a48636a"><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a00b741a59a591f4ed3b8b6ff0a48636a">INI_PFN_WRITE</a>) (const char *txt, void *userdata)</td></tr>
 <tr class="memdesc:a00b741a59a591f4ed3b8b6ff0a48636a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A interface for writting to userdata.  <a href="#a00b741a59a591f4ed3b8b6ff0a48636a">More...</a><br /></td></tr>
 <tr class="separator:a00b741a59a591f4ed3b8b6ff0a48636a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3667a7ffdf24d18beca4a81d1a647e7c"><td class="memItemLeft" align="right" valign="top"><a id="a3667a7ffdf24d18beca4a81d1a647e7c"></a>
+typedef struct <a class="el" href="struct_i_n_i__iter.html">INI_iter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a3667a7ffdf24d18beca4a81d1a647e7c">INI_iter</a></td></tr>
+<tr class="memdesc:a3667a7ffdf24d18beca4a81d1a647e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator for iterating through sections or pairs. Can only be one type: Either created from a <a class="el" href="struct_i_n_i.html" title="The handler for INI the format (a configuration) ">INI</a> handle OR a section. <br /></td></tr>
+<tr class="separator:a3667a7ffdf24d18beca4a81d1a647e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -284,6 +293,21 @@ INIAPI bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:ace7f25e5a5642ff5732158ee3a0d7b4f"><td class="memItemLeft" align="right" valign="top">INIAPI bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#ace7f25e5a5642ff5732158ee3a0d7b4f">INI_WriteFilePath</a> (<a class="el" href="struct_i_n_i.html">INI</a> *handle, const char *path)</td></tr>
 <tr class="memdesc:ace7f25e5a5642ff5732158ee3a0d7b4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write handle to file 'path'.  <a href="#ace7f25e5a5642ff5732158ee3a0d7b4f">More...</a><br /></td></tr>
 <tr class="separator:ace7f25e5a5642ff5732158ee3a0d7b4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a687dce78ac911fe68d184db5283b70ec"><td class="memItemLeft" align="right" valign="top">INIAPI <a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a687dce78ac911fe68d184db5283b70ec">INI_iter_FromHandle</a> (<a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *it, <a class="el" href="struct_i_n_i.html">INI</a> *handle)</td></tr>
+<tr class="memdesc:a687dce78ac911fe68d184db5283b70ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates iterator from handle. This allows you to use INI_iter_NextSection with the iterator.  <a href="#a687dce78ac911fe68d184db5283b70ec">More...</a><br /></td></tr>
+<tr class="separator:a687dce78ac911fe68d184db5283b70ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47a233c46aa64e9ea1405dea021f35ce"><td class="memItemLeft" align="right" valign="top">INIAPI <a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a47a233c46aa64e9ea1405dea021f35ce">INI_iter_FromSection</a> (<a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *it, <a class="el" href="struct_i_n_i__section.html">INI_section</a> *section)</td></tr>
+<tr class="memdesc:a47a233c46aa64e9ea1405dea021f35ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates iterator from section. This allows you to use INI_iter_NextPair with the iterator.  <a href="#a47a233c46aa64e9ea1405dea021f35ce">More...</a><br /></td></tr>
+<tr class="separator:a47a233c46aa64e9ea1405dea021f35ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84b35586df327c27fabf6d743f04df82"><td class="memItemLeft" align="right" valign="top">INIAPI void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a84b35586df327c27fabf6d743f04df82">INI_iter_Free</a> (<a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *it)</td></tr>
+<tr class="memdesc:a84b35586df327c27fabf6d743f04df82"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function doesn't have to be called because if the iterator falls out of scope the memory will be cleaned up anyway. If the iterator was allocated by the API (e.g. INI_iter* it = INI_iter_FromHandle(NULL, handle) ), then this function has to be called.  <a href="#a84b35586df327c27fabf6d743f04df82">More...</a><br /></td></tr>
+<tr class="separator:a84b35586df327c27fabf6d743f04df82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a6761ec83266577c32ecd57e47d1418"><td class="memItemLeft" align="right" valign="top">INIAPI <a class="el" href="struct_i_n_i__section.html">INI_section</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a8a6761ec83266577c32ecd57e47d1418">INI_iter_NextSection</a> (<a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *it)</td></tr>
+<tr class="memdesc:a8a6761ec83266577c32ecd57e47d1418"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get next section of the iterator.  <a href="#a8a6761ec83266577c32ecd57e47d1418">More...</a><br /></td></tr>
+<tr class="separator:a8a6761ec83266577c32ecd57e47d1418"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8765ce477961a02bf40d22f0e5f3005e"><td class="memItemLeft" align="right" valign="top">INIAPI <a class="el" href="struct_i_n_i__pair.html">INI_pair</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ini_8h.html#a8765ce477961a02bf40d22f0e5f3005e">INI_iter_NextPair</a> (<a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *it)</td></tr>
+<tr class="memdesc:a8765ce477961a02bf40d22f0e5f3005e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get next apir of the iterator.  <a href="#a8765ce477961a02bf40d22f0e5f3005e">More...</a><br /></td></tr>
+<tr class="separator:a8765ce477961a02bf40d22f0e5f3005e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>One and only header file for <a class="el" href="struct_i_n_i.html" title="The handler for INI the format (a configuration) ">INI</a>. </p>
@@ -717,6 +741,162 @@ INIAPI bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a84b35586df327c27fabf6d743f04df82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84b35586df327c27fabf6d743f04df82">&#9670;&nbsp;</a></span>INI_iter_Free()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">INIAPI void INI_iter_Free </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *&#160;</td>
+          <td class="paramname"><em>it</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function doesn't have to be called because if the iterator falls out of scope the memory will be cleaned up anyway. If the iterator was allocated by the API (e.g. INI_iter* it = INI_iter_FromHandle(NULL, handle) ), then this function has to be called. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">it</td><td>Iterator to deallocate </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a687dce78ac911fe68d184db5283b70ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a687dce78ac911fe68d184db5283b70ec">&#9670;&nbsp;</a></span>INI_iter_FromHandle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">INIAPI <a class="el" href="struct_i_n_i__iter.html">INI_iter</a>* INI_iter_FromHandle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *&#160;</td>
+          <td class="paramname"><em>it</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_i_n_i.html">INI</a> *&#160;</td>
+          <td class="paramname"><em>handle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates iterator from handle. This allows you to use INI_iter_NextSection with the iterator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">it</td><td>If not NULL, memory of the iterator won't be managed by the API, so you won't have to call INI_iter_Free. </td></tr>
+    <tr><td class="paramname">handle</td><td>Iterates through the handle's sections.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a new iterator. Not newly allocated if it was not NULL. </dd></dl>
+
+</div>
+</div>
+<a id="a47a233c46aa64e9ea1405dea021f35ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47a233c46aa64e9ea1405dea021f35ce">&#9670;&nbsp;</a></span>INI_iter_FromSection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">INIAPI <a class="el" href="struct_i_n_i__iter.html">INI_iter</a>* INI_iter_FromSection </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *&#160;</td>
+          <td class="paramname"><em>it</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_i_n_i__section.html">INI_section</a> *&#160;</td>
+          <td class="paramname"><em>section</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates iterator from section. This allows you to use INI_iter_NextPair with the iterator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">it</td><td>If not NULL, memory of the iterator won't be managed by the API, so you won't have to call INI_iter_Free. </td></tr>
+    <tr><td class="paramname">section</td><td>Iterates through the section's pairs.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a new iterator. Not newly allocated if it was not NULL. </dd></dl>
+
+</div>
+</div>
+<a id="a8765ce477961a02bf40d22f0e5f3005e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8765ce477961a02bf40d22f0e5f3005e">&#9670;&nbsp;</a></span>INI_iter_NextPair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">INIAPI <a class="el" href="struct_i_n_i__pair.html">INI_pair</a>* INI_iter_NextPair </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *&#160;</td>
+          <td class="paramname"><em>it</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get next apir of the iterator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">it</td><td>The iterator to use. Should have been created with INI_iter_FromSection</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns NULL if no pairs are available anymore. </dd></dl>
+
+</div>
+</div>
+<a id="a8a6761ec83266577c32ecd57e47d1418"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a6761ec83266577c32ecd57e47d1418">&#9670;&nbsp;</a></span>INI_iter_NextSection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">INIAPI <a class="el" href="struct_i_n_i__section.html">INI_section</a>* INI_iter_NextSection </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_i_n_i__iter.html">INI_iter</a> *&#160;</td>
+          <td class="paramname"><em>it</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get next section of the iterator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">it</td><td>The iterator to use. Should have been created with INI_iter_FromHandle</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns NULL if no sections are available anymore. </dd></dl>
 
 </div>
 </div>

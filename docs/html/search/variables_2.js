@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['name',['name',['../struct_i_n_i__section.html#a2edade33692a44048445c9501948a60e',1,'INI_section']]]
+  ['indexing_5fpos',['indexing_pos',['../struct_i_n_i__iter.html#aab26341672a07bc6d9749d3f9ce9f84e',1,'INI_iter']]]
 ];

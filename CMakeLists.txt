@@ -6,6 +6,7 @@ include_directories("${PROJECT_SOURCE_DIR}/include")
 set(INI_SOURCE_FILES "${PROJECT_SOURCE_DIR}/src/ini_pair.c"
                      "${PROJECT_SOURCE_DIR}/src/ini_section.c"
                      "${PROJECT_SOURCE_DIR}/src/ini_interpreter.c"
+                     "${PROJECT_SOURCE_DIR}/src/ini_iterator.c"
                      "${PROJECT_SOURCE_DIR}/src/ini.c")
 
 option(INI_BUILD_DYN "Build dynamic library (.ddl,.so)" OFF)
@@ -43,3 +44,4 @@ add_program_status_test(write)
 add_program_status_test(read_static)
 add_program_status_test(read_static_err)
 add_program_status_test(read_write_file)
+add_program_status_test(iterator)
