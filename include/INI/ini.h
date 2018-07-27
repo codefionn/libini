@@ -118,7 +118,7 @@ typedef struct INI_section {
   /*! @brief Attribute for the pairs (key,value) of the configuration.
    *         (+ Indexing)
    */
-  INI_pair* * pairs[255];
+  INI_pair* * pairs[256];
 } INI_section;
 
 /*! @brief Create a new configuration.
@@ -227,7 +227,7 @@ typedef struct INI {
    */
   uint8_t alloc_type;
   /*! @brief All sections. Using indexing. */
-  INI_section* * sections[256];
+  INI_section* * sections[257];
   /*! @brief How the INI should behave. */
   uint8_t flags;
 } INI;
@@ -444,6 +444,16 @@ bool INI_WriteFile(INI* handle, FILE* file);
  */
 INIAPI
 bool INI_WriteFilePath(INI* handle, const char * path);
+
+/* Iterator */
+
+typedef struct INI_iterator
+{
+  /* Memory management type (API/EXTERN). */
+  uint8_t alloc_type;
+  uint16_t indexing_pos;
+  size_t pos;
+} INI_iterator;
 
 #ifdef __cplusplus
 }

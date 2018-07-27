@@ -42,7 +42,7 @@ INI_section* INI_section_New(INI_section* conf,
   else
     conf->alloc_type = _INI_ALLOC_TYPE_EXTERN;  
   // Iterate through all exiting pair arrays and set them to NULL
-  for (size_t i = 0; i < 255; ++i)
+  for (size_t i = 0; i <= 255; ++i)
     {
       conf->pairs[i] = NULL;
     }
@@ -64,7 +64,7 @@ void INI_section_Free(INI_section* conf)
   if (conf->name)
     free(conf->name);
   // Free all allocated pairs if exists
-  for (size_t i = 0; i < 255; ++i)
+  for (size_t i = 0; i <= 255; ++i)
     {
       INI_pair* * pairs = conf->pairs[i];
       if (!pairs)

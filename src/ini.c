@@ -42,7 +42,7 @@ INI* INI_New(INI* handler)
   // No flags
   handler->flags = INI_FLAGS_DEFAULT;
   
-  for (size_t i = 1; i < 256; ++i)
+  for (size_t i = 1; i <= 256; ++i)
     {
       handler->sections[i] = NULL;
     }
@@ -64,7 +64,7 @@ INI* INI_New(INI* handler)
 
 void INI_Free(INI* handler)
 {
-  for (size_t i = 0; i < 256; ++i)
+  for (size_t i = 0; i <= 256; ++i)
     {
       // Free all allocated sections in array i
       INI_section* * sections = handler->sections[i];
