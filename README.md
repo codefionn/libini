@@ -7,8 +7,17 @@ Windows & Linux newlines supported.
 
 ```sh
 mkdir build
-take build
+cd build
 cmake -G "Unix Makefiles" .. ; make -j9
+```
+
+## Testing
+
+Test the project (Assumes you already build the project in the build dir).
+
+```sh
+cd build/tests
+ctest
 ```
 
 ## Documentation
@@ -30,11 +39,11 @@ Some examples to help you get started.
 
 ### Write stored data to file
 
-```
+```C
 INI* handle = INI_New(NULL);
 
 // Add keys & values to global section
-INI_AddSection(handle, NULL, "is_global", "True");
+INI_AddString(handle, NULL, "is_global", "True");
 
 // Add keys & values to section 'mysection'
 INI_AddSection(handle, INI_section_New(NULL, "mysection"));

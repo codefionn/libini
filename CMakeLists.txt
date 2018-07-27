@@ -21,30 +21,4 @@ option(INI_BUILD_DYN "Build dynamic library (.ddl,.so)" OFF)
 add_subdirectory("${PROJECT_SOURCE_DIR}/src/examples" examples)
 
 # Tests
-
-include(CTest)
-
-macro(add_program_test NAME)
-    add_executable(test_${NAME}
-        "${PROJECT_SOURCE_DIR}/src/tests/${NAME}.c"
-    )
-    target_link_libraries(test_${NAME} INI)   
-endmacro()
-
-macro(add_program_status_test NAME)
-    add_program_test(${NAME})
-    add_test(test_${NAME} test_${NAME})
-endmacro()
-
-macro(do_test NAME ARGS RESULT)
-    add_test(test_${NAME}_${ARGS} test_${NAME} ${ARGS})
-    set_tests_properties(test_${NAME}_${ARGS}
-        PROPERTIES PASS_REGULAR_EXPRESSION ${RESULT})
-endmacro()
-
-add_program_status_test(general)
-add_program_status_test(write)
-add_program_status_test(read_static)
-add_program_status_test(read_static_err)
-add_program_status_test(read_write_file)
-add_program_status_test(iterator)
+add_subdirectory("${PROJECT_SOURCE_DIR}/src/tests/" tests)
