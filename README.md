@@ -3,13 +3,34 @@
 A library for reading INI files. Has configure options using flags.
 Windows & Linux newlines supported.
 
+## Build
+
+```sh
+mkdir build
+take build
+cmake -G "Unix Makefiles" .. ; make -j9
+```
+
+## Documentation
+
+Create the docs:
+
+```sh
+doxygen .doxyconf
+```
+
+Open docs (Linux):
+```sh
+xdg-open docs/html/index.html
+```
+
 ## Examples
 
 Some examples to help you get started.
 
 ### Write stored data to file
 
-```C
+```
 INI* handle = INI_New(NULL);
 
 // Add keys & values to global section
@@ -84,6 +105,33 @@ INI_New(&handle);
 // Load data from string
 INI_ReadString(&handle, str_result);
 free(str_result);
+
+INI_Free(&handle);
+```
+
+### Iterate through sections and pairs
+
+```C
+INI handle;
+INI_New(&handle);
+
+INI_ReadFilePath(&handle, "file.ini");
+
+INI_iter it;
+INI_iter_FromHandle(NULL, &handle);
+
+INI_section* section;
+while ((section = INI_iter_NextSection(&it)))
+  {
+    if (section->name)
+      printf("[%s]\n", section->name);
+
+    INI_pair* pair;
+    while ((pair = INI_iter_NextPair(&it)))
+      {
+        printf("%s=%s\n", pair->key, pair->value);
+      }
+  }
 
 INI_Free(&handle);
 ```
