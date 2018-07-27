@@ -36,6 +36,7 @@ xdg-open docs/html/index.html
 ## Examples
 
 Some examples to help you get started.
+For short howtos go to /howto.md
 
 ### Write stored data to file
 
