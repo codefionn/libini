@@ -1,12 +1,12 @@
 var indexSectionsWithContent =
 {
-  0: "_afinps",
+  0: "_afhikmnpsv",
   1: "i",
   2: "i",
   3: "i",
-  4: "afinps",
+  4: "afiknpsv",
   5: "i",
-  6: "_i",
+  6: "fhimps",
   7: "i"
 };
 
@@ -18,7 +18,7 @@ var indexSectionNames =
   3: "functions",
   4: "variables",
   5: "typedefs",
-  6: "defines",
+  6: "groups",
   7: "pages"
 };
 
@@ -30,7 +30,7 @@ var indexSectionLabels =
   3: "Functions",
   4: "Variables",
   5: "Typedefs",
-  6: "Macros",
+  6: "Modules",
   7: "Pages"
 };
 

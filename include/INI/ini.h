@@ -36,6 +36,21 @@
  *  @author Fionn Langhans
  *  @version 0.0
  */
+
+/*! @defgroup MemoryManagement Manage memory of direct references */
+
+/*! @defgroup Flags Flags - How the INI handler should operate    */
+
+/*! @defgroup Pair Pairs                                          */
+
+/*! @defgroup Section  Sections                                   */
+
+/*! @defgroup Handler Handler                                     */
+
+/*! @defgroup Iterator Iterator                                   */
+
+/*! @defgroup IO Input/Output operations                          */
+
 #ifndef INI_H
 #define INI_H
 
@@ -58,6 +73,7 @@ extern "C" {
  *         If an INI structure has this alloc type,
  *         the direct memory reference shall not be freed
  *         (within INI*Free).
+ *  @ingroup MemoryManagement
  */
 #define _INI_ALLOC_TYPE_EXTERN  0
 
@@ -65,6 +81,7 @@ extern "C" {
  *         If an INI structure has this alloc type,
  *         the direct memory reference shall be freed
  *         (within INI*Free).
+ *  @ingroup MemoryManagement
  */
 #define _INI_ALLOC_TYPE_API     1
 
@@ -72,13 +89,17 @@ extern "C" {
 
 /*! @brief Structure for storing a key and
  *         the assigned value
+ *  @ingroup Pair
  */
 typedef struct INI_pair {
-  /* @brief For memory magement (API/EXTERN). */
+  /*! @brief For memory magement
+   *  (@ref _INI_ALLOC_TYPE_API "API"/@ref _INI_ALLOC_TYPE_EXTERN "EXTERN").
+   * @ingroup MemoryManagement
+   */
   uint8_t alloc_type;
-  /* @brief Key */
+  /*! @brief Key */
   char * key;
-  /* @brief Value assigned to key */
+  /*! @brief Value assigned to key */
   char * value;
 } INI_pair;
 
@@ -91,6 +112,8 @@ typedef struct INI_pair {
  *               has to be called to free storage.
  *  @param key   When null, set it later on. Will be copied.
  *  @param value When null. set it later on. Will be copied.
+ *  
+ *  @ingroup Pair
  */
 INIAPI
 INI_pair* INI_pair_New(INI_pair* pair,
@@ -100,11 +123,14 @@ INI_pair* INI_pair_New(INI_pair* pair,
  *         Also deletes memory of pair itself, if it has been
  *         allocated by the API (You passed a NULL pointer to
  *         the INI_pair_New function).
+ *
+ *  @ingroup Pair
  */
 INIAPI
 void INI_pair_Free(INI_pair* pair);
 
 /*! @brief Set the key of a pair.
+ *  @ingroup Pair
  *
  *  @param key Must not be NULL. Will be copied.
  */
@@ -112,6 +138,7 @@ INIAPI
 void INI_pair_SetKey(INI_pair* pair, const char * key);
 
 /*! @brief Set the value of a pair.
+ *  @ingroup Pair
  *
  *  @param vaule Must not be NULL. Will be copied.
  */
@@ -120,9 +147,13 @@ void INI_pair_SetValue(INI_pair* pair, const char * value);
 /* ::INI_section */
 
 /*! @brief Capable of storing whole sections.
+ *  @ingroup Section
  */
 typedef struct INI_section {
-  /*! @brief Memory management (API/EXTERN). */
+  /*! @brief Memory management
+   *  (@ref _INI_ALLOC_TYPE_API "API"/@ref _INI_ALLOC_TYPE_EXTERN "EXTERN").
+   *  @ingroup MemoryManagement
+   */
   uint8_t alloc_type;
   /*! @brief Name of the section. */
   char * name;
@@ -133,6 +164,7 @@ typedef struct INI_section {
 } INI_section;
 
 /*! @brief Create a new configuration.
+ *  @ingroup Section
  *
  *  @param conf Can be null. If this parameter is not null, the newly created
  *              configuration is stored in this one (but also returned). Also
@@ -152,23 +184,28 @@ INI_section* INI_section_New(INI_section* conf,
  *         has been allocated directly by the API (you passed NULL
  *         to the INI_section_New function). If not you have to free
  *         directly allocated memory yourself.
+ *  @ingroup Section
  */
 INIAPI
 void INI_section_Free(INI_section* conf);
 
 /*! @return Returns the pair of key. If the key doesn't exist,
  *          NULL is returned.
+ *  @ingroup Section
  */
 INI_pair* INI_section_Get(INI_section* conf, const char * key);
 
 /*! @return Returns the c-string (not copied!) value of key. If the key doesn't
  *          exist, NULL is returned.
+ *  @ingroup Section
  */
 INIAPI
 const char * INI_section_GetString(INI_section* conf, const char * key);
 
 /*! @return Returns a boolean value of key. If the key doesn't exist,
  *          defaultValue is returned.
+ *  @ingroup Section
+ *
  *  @param exists Can be null. Will be set to true, if the value exists.
  */
 INIAPI
@@ -178,6 +215,8 @@ bool INI_section_GetBool(INI_section* conf,
 
 /*! @return Returns a integer value of key. If the key doesn't exist,
  *          defaultValue is returned.
+ *  @ingroup Section
+ *
  *  @param exists Can be null. Will be set to true, if the value exists.
  */
 INIAPI
@@ -187,6 +226,8 @@ int INI_section_GetInt(INI_section* conf,
 
 /*! @return Returns a float value of key. If the key doesn't exist,
  *          defaultValue is returned.
+ *  @ingroup Section
+ *
  *  @param exists Can be null. Will be set to true, if the value exists.
  */
 INIAPI
@@ -195,6 +236,7 @@ float INI_section_GetFloat(INI_section* conf,
                            bool* exists);
 
 /*! @brief Sets the value of key to 'value'.
+ *  @ingroup Section
  *
  *  If 'key' was already set, the value of key is set. If 'key'
  *  doesn't exist, a new one will be created and assigned to 'value'.
@@ -204,6 +246,7 @@ void INI_section_SetString(INI_section* conf,
                            const char * key, const char * value);
 
 /*! @brief Adds the key and value to the pairs (section).
+ *  @ingroup Section
  *  
  *  @param conf
  *  @param key
@@ -217,29 +260,53 @@ bool INI_section_AddString(INI_section* conf,
 
 /* ::INI */
 
-/*! @brief Be verbose.                      */
+/*! @addtogroup Handler
+ *  @{
+ */
+
+/*! @addtogroup Flags
+ * @{
+ */
+
+/*! @brief Be verbose.
+ *  @ingroup Flags
+ */
 #define INI_FLAG_VERBOSE       0x0001
-/*! @brief Print errors to stderr.          */
+/*! @brief Print errors to stderr.
+ *  @ingroup Flags
+ */
 #define INI_FLAG_ERROR         0x0002
-/*! @brief Interpreter trimes spaces        */
+/*! @brief Interpreter trimes spaces
+ *  @ingroup Flags
+ */
 #define INI_FLAG_TRIM_SPACES   0x0004
 /*! @brief Use windows newlines for writing.
  *         Standard are Linux file endings
- *         '\n'.                            */
+ *         '\n'.                            
+ *  @ingroup Flags
+ */
 #define INI_FLAG_WINDOWS       0x0008
 
-/*! @brief Flags that are active at default. */
+/*! @brief Flags that are active by default.
+ *  @ingroup Flags
+ */
 #define INI_FLAGS_DEFAULT INI_FLAG_ERROR | INI_FLAG_TRIM_SPACES
+
+/*! @} */
 
 /*! @brief The handler for INI the format (a configuration)
  */
 typedef struct INI {
-  /*! @brief How the memory of the INI reference should be handled (API,EXTERN)
+  /*! @brief How the memory of the INI reference should be handled
+   *  (@ref _INI_ALLOC_TYPE_API "API"/@ref _INI_ALLOC_TYPE_EXTERN "EXTERN").
+   *  @ingroup MemoryManagement
    */
   uint8_t alloc_type;
   /*! @brief All sections. Using indexing. */
   INI_section* * sections[257];
-  /*! @brief How the INI should behave. */
+  /*! @brief How the INI should behave. 
+   *  @ingroup Flags
+   */
   uint8_t flags;
 } INI;
 
@@ -261,22 +328,26 @@ INI* INI_New(INI* handler);
 INIAPI
 void INI_Free(INI* handler);
 
-/*! @brief Check if flag is active.
- *
- *  @return Returns true if flag in handler is activated.
- */
-INIAPI
-bool INI_GetFlag(INI* handler, int flag);
-
-/*! @brief Activates/Deactivates a feature/flag.
- *         You could also activate/deactivate several flags at once.
+/*! @brief Activate/Deactivate flag.
+ *  @ingroup Flags
  *  
  *  @param handler,
  *  @param flag
  *  @param status true=active,false=deactive
  */
 INIAPI
-void INI_SetFlag(INI* handler, int flog, bool status);
+void INI_SetFlag(INI* handler, int flag, bool status);
+
+/*! @brief Check if flag is active.
+ *  @ingroup Flags
+ *  
+ *  @param handler,
+ *  @param flag
+ *
+ *  @return true=active,false=inactive
+ */
+INIAPI
+bool INI_GetFlag(INI* handler, int flag);
 
 /*! @return Returns a section called 'section'. If the section doesn't exist
  *          NULL is returned.
@@ -286,6 +357,7 @@ INI_section* INI_GetSection(INI* handler, const char * section);
 
 /*! @return Returns the pair of key. If the key doesn't 
  *          exist, NULL is returned.
+ *
  *  @param conf
  *  @param section In which section to search (NULL for the global one).
  *  @param key     The key to use.
@@ -296,6 +368,7 @@ INI_pair* INI_Get(INI* handler,
 
 /*! @return Returns the c-string value (not copied!) of key. If the key doesn't 
  *          exist, NULL is returned.
+ *
  *  @param conf
  *  @param section In which section to search (NULL for the global one).
  *  @param key     The key to use.
@@ -306,6 +379,7 @@ const char * INI_GetString(INI* handler,
 
 /*! @return Returns the boolean value of key. If the key doesn't
  *          exist, defaultValue is returned.
+ *
  *  @param conf
  *  @param defaultValue
  *  @param section      In which section to search (NULL for the global one).
@@ -319,6 +393,7 @@ bool INI_GetBool(INI* handler, bool defaultValue,
 
 /*! @return Returns the integer value of key. If the key doesn't
  *          exist, defaultValue is returned.
+ *
  *  @param conf
  *  @param defaultValue
  *  @param section      In which section to search (NULL for the global one).
@@ -332,6 +407,7 @@ int INI_GetInt(INI* handler, int defaultValue,
 
 /*! @return Returns the float value of key. If the key doesn't
  *          exist, defaultValue is returned.
+ *
  *  @param conf
  *  @param defaultValue
  *  @param section      In which section to search (NULL for the global one).
@@ -379,6 +455,8 @@ bool INI_AddString(INI* handler,
 #define INI_READ_ERROR_MAX    402
 
 /*! @brief A interface for reading from userdata
+ *  @ingroup IO
+ *  @see INI_Read
  *  
  *  @return Normally returns 'char's. If EOF then EOF.
  *          Returns INI_READ_ERROR
@@ -387,6 +465,7 @@ typedef int (*INI_PFN_READ) (void* userdata);
 
 /*! @brief Reads INI formatted data from userdata with readfn
  *         till EOF.
+ *  @ingroup IO
  *
  *  @param handle
  *  @param readfn
@@ -399,23 +478,40 @@ bool INI_Read(INI* handle, INI_PFN_READ readfn, void* userdata);
 
 /*! @brief Reads INI formatted data from 'data' and writes results
  *         into 'handle'
+ *  @ingroup IO
+ *  @see INI_Read
+ *
+ *  @param handle
+ *  @param data The INI formatted text to read
  */
 INIAPI
 bool INI_ReadString(INI* handle, const char * data);
 
 /*! @brief Reads INI formatted data from 'file' and writes result
  *         into handle
+ *  @ingroup IO
+ *  @see INI_Read
+ *
+ *  @param handle
+ *  @param file The file to read from
  */
 INIAPI
 bool INI_ReadFile(INI* handle, FILE* file);
 
 /*! @brief Reads INI formatted ata from the file 'path' and writes
  *         results into handle
+ *  @ingroup IO
+ *  @see INI_Read
+ *
+ *  @param handle
+ *  @param path Which file should be read
  */
 INIAPI
 bool INI_ReadFilePath(INI* handle, const char * path);
 
 /*! @brief A interface for writting to userdata
+ *  @ingroup IO
+ *  @see INI_Write
  *
  *  @param txt txt is equal to NULL, if all data has been written.
  *             strlen(txt) is equal to 0, if error occured.
@@ -425,6 +521,7 @@ bool INI_ReadFilePath(INI* handle, const char * path);
 typedef bool (*INI_PFN_WRITE) (const char * txt, void* userdata);
 
 /*! @brief Write INI formatted data from handle to userdata using writefn.
+ *  @ingroup IO
  *  
  *  @return Returns false if failed.
  */
@@ -432,6 +529,7 @@ INIAPI
 bool INI_Write(INI* handle, INI_PFN_WRITE writefn, void* userdata);
 
 /*! @brief Writes INI formatted data from handle to result.
+ *  @ingroup IO
  *
  *  @param handle
  *  @param result *result has to be NULL(result itself not).
@@ -442,6 +540,8 @@ INIAPI
 bool INI_WriteString(INI* handle, char ** result);
 
 /*! @brief Write INI formated data from handle to file.
+ *  @ingroup IO
+ *  @see INI_Write
  *  
  *  @return Returns false if failed.
  */
@@ -449,22 +549,33 @@ INIAPI
 bool INI_WriteFile(INI* handle, FILE* file);
 
 /*! @brief Write handle to file 'path'.
+ *  @ingroup IO
+ *  @see INI_Write
  *  
  *  @param handle
- *  @param path
+ *  @param path Where to write to
  */
 INIAPI
 bool INI_WriteFilePath(INI* handle, const char * path);
 
+/*! @} */
+
 /* Iterator */
+
+/*! @addtogroup Iterator
+ * @{
+ */
 
 /*! @brief An iterator for iterating through sections or pairs.
  *         Can only be one type: Either created from a INI handle
- *         OR a section.
+ *         OR a @ref INI_section "section".
+ *  @ingroup Iterator
  */
 typedef struct INI_iter
 {
-  /*! @brief Memory management type (API/EXTERN).    */
+  /*! @brief Memory management type
+   *  (@ref _INI_ALLOC_TYPE_API "API"/@ref _INI_ALLOC_TYPE_EXTERN "EXTERN").
+   */
   uint8_t alloc_type;
   /*! @brief Position in the indexing array          */
   uint16_t indexing_pos;
@@ -473,7 +584,9 @@ typedef struct INI_iter
 
   /*! @brief Type of the iterator                    */
   uint8_t fp_type;
-  /*! @brief Pointer to either a handle or a section */
+  /*! @brief Pointer to either a
+   *  @ref INI "handle" or a @ref INI_section "section"
+   */
   void * fp;
 } INI_iter;
 
@@ -506,6 +619,7 @@ INI_iter* INI_iter_FromSection(INI_iter* it, INI_section* section);
  *         up anyway. If the iterator was allocated by the API
  *         (e.g. INI_iter* it = INI_iter_FromHandle(NULL, handle) ), then
  *         this function has to be called.
+ *  @see INI_iter_FromHandle INI_iter_FromSection
  *
  *  @param it Iterator to deallocate
  */
@@ -513,6 +627,7 @@ INIAPI
 void INI_iter_Free(INI_iter* it);
 
 /*! @brief Get next section of the iterator.
+ *  @see INI_iter
  *
  *  @param it The iterator to use. Should have been created with
  *            INI_iter_FromHandle
@@ -523,6 +638,7 @@ INIAPI
 INI_section* INI_iter_NextSection(INI_iter* it);
 
 /*! @brief Get next apir of the iterator.
+ *  @see INI_iter
  *
  *  @param it The iterator to use. Should have been created with
  *            INI_iter_FromSection
@@ -531,6 +647,8 @@ INI_section* INI_iter_NextSection(INI_iter* it);
  */
 INIAPI
 INI_pair* INI_iter_NextPair(INI_iter* it);
+
+/*! @}*/
 
 #ifdef __cplusplus
 }

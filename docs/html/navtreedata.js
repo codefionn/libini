@@ -25,6 +25,7 @@ var NAVTREE =
 [
   [ "INI", "index.html", [
     [ "INI library", "index.html", null ],
+    [ "Modules", "modules.html", "modules" ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
