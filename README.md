@@ -126,8 +126,10 @@ while ((section = INI_iter_NextSection(&it)))
     if (section->name)
       printf("[%s]\n", section->name);
 
+    INI_iter itp;
+    INI_iter_FromSection(&itp, section);
     INI_pair* pair;
-    while ((pair = INI_iter_NextPair(&it)))
+    while ((pair = INI_iter_NextPair(&itp)))
       {
         printf("%s=%s\n", pair->key, pair->value);
       }
