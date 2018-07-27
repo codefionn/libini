@@ -17,16 +17,8 @@ option(INI_BUILD_DYN "Build dynamic library (.ddl,.so)" OFF)
   add_library(INI STATIC ${INI_SOURCE_FILES})
 #endif()
 
-# Examples
-
-macro (add_example NAME)
-  add_executable(example_${NAME}
-      ${PROJECT_SOURCE_DIR}/src/examples/${NAME}.c
-  )
-  target_link_libraries(example_${NAME} INI)
-endmacro()
-
-add_example(parse_ini)
+# Example
+add_subdirectory("${PROJECT_SOURCE_DIR}/src/examples" examples)
 
 # Tests
 
@@ -34,7 +26,7 @@ include(CTest)
 
 macro(add_program_test NAME)
     add_executable(test_${NAME}
-        ${PROJECT_SOURCE_DIR}/src/tests/${NAME}.c
+        "${PROJECT_SOURCE_DIR}/src/tests/${NAME}.c"
     )
     target_link_libraries(test_${NAME} INI)   
 endmacro()
