@@ -1,7 +1,14 @@
 # INI
 
-A library for reading INI files. Has configure options using flags.
-Windows & Linux newlines supported.
+A library for reading INI files.
+
+Features:
+
+* Indexing
+* Error printing
+* Documentation
+* UTF-8
+* Read spaces or cut them
 
 ## Build
 
