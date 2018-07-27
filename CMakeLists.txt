@@ -11,11 +11,11 @@ set(INI_SOURCE_FILES "${PROJECT_SOURCE_DIR}/src/ini_pair.c"
 
 option(INI_BUILD_DYN "Build dynamic library (.ddl,.so)" OFF)
 
-#if (INI_BUILD_DYN)
-#  add_library(INI SHARED ${INI_SOURCE_FILES})
-#else
+if (INI_BUILD_DYN)
+  add_library(INI SHARED ${INI_SOURCE_FILES})
+else()
   add_library(INI STATIC ${INI_SOURCE_FILES})
-#endif()
+endif()
 
 # Example
 add_subdirectory("${PROJECT_SOURCE_DIR}/src/examples" examples)
