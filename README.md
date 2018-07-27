@@ -9,6 +9,7 @@ Features:
 * Documentation
 * UTF-8
 * Read spaces or cut them
+* Dependency: C Library
 
 ## Build
 

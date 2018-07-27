@@ -13,6 +13,7 @@ option(INI_BUILD_DYN "Build dynamic library (.ddl,.so)" OFF)
 
 if (INI_BUILD_DYN)
   add_library(INI SHARED ${INI_SOURCE_FILES})
+  target_compile_definitions(INI PRIVATE _INI_BUILD_DLL)
 else()
   add_library(INI STATIC ${INI_SOURCE_FILES})
 endif()

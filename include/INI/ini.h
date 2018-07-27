@@ -37,6 +37,8 @@
  *  @version 0.0
  */
 
+/* GROUPS */
+
 /*! @defgroup MemoryManagement Manage memory of direct references */
 
 /*! @defgroup Flags Flags - How the INI handler should operate    */
@@ -64,6 +66,20 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 #include <ctype.h>
+
+#if defined(_WIN32) && defined(_INI_BUILD_DLL)
+/* Build as DLL    */
+# define INIAPI __declspec(dllexport)
+#elif defined(_WIN32) && defined(INI_BUILD_DLL)
+/* Calls as DLL    */
+# define INIAPI __declspec(dllimport)
+#elif defined(__GNUC__) && defined(_INI_BUILD_DLL)
+/* Build as DLL    */
+# define INIAPI __attribute__((visibility("default")))
+#else
+/* Everything else */
+# define INIAPI
+#endif
 
 #ifndef INIAPI
 # define INIAPI extern
@@ -649,6 +665,8 @@ INIAPI
 INI_pair* INI_iter_NextPair(INI_iter* it);
 
 /*! @}*/
+
+#undef INIAPI
 
 #ifdef __cplusplus
 }

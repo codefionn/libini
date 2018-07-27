@@ -6,7 +6,10 @@ macro(add_program_test NAME)
     add_executable(${NAME}
         "${PROJECT_SOURCE_DIR}/src/tests/${NAME}.c"
     )
-    target_link_libraries(${NAME} INI)   
+    if (INI_BUILD_DYN)
+      target_compile_definitions(${NAME} PRIVATE INI_BUILD_DLL)
+    endif()
+    target_link_libraries(${NAME} INI)
 endmacro()
 
 macro(add_program_status_test NAME)
