@@ -24,6 +24,9 @@
    
    For more information, please refer to <http://unlicense.org/>*/ 
 
+#ifndef INI_H
+#define INI_H
+
 /*! @file INI/ini.h
  *  @brief One and only header file for INI
  */
@@ -53,19 +56,16 @@
 
 /*! @defgroup IO Input/Output operations                          */
 
-#ifndef INI_H
-#define INI_H
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #if defined(_WIN32) && defined(_INI_BUILD_DLL)
 /* Build as DLL    */
@@ -209,14 +209,16 @@ void INI_section_Free(INI_section* conf);
  *          NULL is returned.
  *  @ingroup Section
  */
-INI_pair* INI_section_Get(INI_section* conf, const char * key);
+INI_pair* INI_section_Get(INI_section* conf, const char * key,
+                          bool ignore_case);
 
 /*! @return Returns the c-string (not copied!) value of key. If the key doesn't
  *          exist, NULL is returned.
  *  @ingroup Section
  */
 INIAPI
-const char * INI_section_GetString(INI_section* conf, const char * key);
+const char * INI_section_GetString(INI_section* conf, const char * key,
+                                   bool ignore_case);
 
 /*! @return Returns a boolean value of key. If the key doesn't exist,
  *          defaultValue is returned.
@@ -227,7 +229,8 @@ const char * INI_section_GetString(INI_section* conf, const char * key);
 INIAPI
 bool INI_section_GetBool(INI_section* conf,
                          bool defaultValue, const char * key,
-                         bool* exists);
+                         bool* exists,
+                         bool ignore_case);
 
 /*! @return Returns a integer value of key. If the key doesn't exist,
  *          defaultValue is returned.
@@ -238,7 +241,8 @@ bool INI_section_GetBool(INI_section* conf,
 INIAPI
 int INI_section_GetInt(INI_section* conf,
                        int defaultValue, const char * key,
-                       bool* exists);
+                       bool* exists,
+                       bool ignore_case);
 
 /*! @return Returns a float value of key. If the key doesn't exist,
  *          defaultValue is returned.
@@ -249,7 +253,8 @@ int INI_section_GetInt(INI_section* conf,
 INIAPI
 float INI_section_GetFloat(INI_section* conf,
                            float defaultValue, const char * key,
-                           bool* exists);
+                           bool* exists,
+                           bool ignore_case);
 
 /*! @brief Sets the value of key to 'value'.
  *  @ingroup Section
@@ -259,7 +264,8 @@ float INI_section_GetFloat(INI_section* conf,
  */
 INIAPI
 void INI_section_SetString(INI_section* conf,
-                           const char * key, const char * value);
+                           const char * key, const char * value,
+                           bool ignore_case);
 
 /*! @brief Adds the key and value to the pairs (section).
  *  @ingroup Section
@@ -272,7 +278,8 @@ void INI_section_SetString(INI_section* conf,
  */
 INIAPI
 bool INI_section_AddString(INI_section* conf,
-                           const char * key, const char * value);
+                           const char * key, const char * value,
+                           bool ignore_case);
 
 /* ::INI */
 
@@ -302,11 +309,19 @@ bool INI_section_AddString(INI_section* conf,
  *  @ingroup Flags
  */
 #define INI_FLAG_WINDOWS       0x0008
+/*! @brief Ignore case (default INI behaviour).
+ *         This flag mustn't be set, when you already
+ *         added a section or key (e.g. should be called
+ *         directly after initialisation).
+ *  @ingroup Flags
+ */
+#define INI_FLAG_IGNORE_CASE   0x0010
 
 /*! @brief Flags that are active by default.
  *  @ingroup Flags
  */
-#define INI_FLAGS_DEFAULT INI_FLAG_ERROR | INI_FLAG_TRIM_SPACES
+#define INI_FLAGS_DEFAULT INI_FLAG_ERROR | INI_FLAG_TRIM_SPACES \
+        | INI_FLAG_IGNORE_CASE
 
 /*! @} */
 
@@ -665,6 +680,9 @@ INIAPI
 INI_pair* INI_iter_NextPair(INI_iter* it);
 
 /*! @}*/
+
+INIAPI
+bool _INI_strcasecmp(const char * s0, const char * s1);
 
 #undef INIAPI
 

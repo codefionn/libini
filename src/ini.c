@@ -102,15 +102,25 @@ INI_section* INI_GetSection(INI* handler, const char * section)
   if (!section)
     return (handler->sections[0])[0];
   
+  bool ignore_case = INI_GetFlag(handler, INI_FLAG_IGNORE_CASE);
   // + 1 because of GLOBAL == 0
-  INI_section* * sections = handler->sections[((size_t) section[0]) + 1];
+  INI_section* * sections = handler->sections[((size_t)
+    (ignore_case ? tolower(section[0]) : section[0])) + 1];
   if (!sections)
     return NULL;
   // Search for section
   for (size_t i = 0; sections[i]; ++i)
     {
-      if (strcmp(sections[i]->name, section) == 0)
-        return sections[i];
+      if (ignore_case)
+        {
+          if (_INI_strcasecmp(sections[i]->name, section))
+            return sections[i];
+        }
+      else
+        {
+          if (strcmp(sections[i]->name, section) == 0)
+            return sections[i];
+        }
     }
   // Nothing found. Return NULL.
   return NULL;
@@ -123,7 +133,7 @@ INI_pair* INI_Get(INI* handler,
   if (!sec)
     return NULL;
 
-  return INI_section_Get(sec, key);
+  return INI_section_Get(sec, key, INI_GetFlag(handler, INI_FLAG_IGNORE_CASE));
 }
 
 const char * INI_GetString(INI* handler,
@@ -133,7 +143,7 @@ const char * INI_GetString(INI* handler,
   if (!sec)
     return NULL;
 
-  return INI_section_GetString(sec, key);
+  return INI_section_GetString(sec, key, INI_GetFlag(handler, INI_FLAG_IGNORE_CASE));
 }
 
 bool INI_GetBool(INI* handler, bool defaultValue,
@@ -148,7 +158,8 @@ bool INI_GetBool(INI* handler, bool defaultValue,
       return false;
     }
 
-  return INI_section_GetBool(sec, defaultValue, key, exists);
+  return INI_section_GetBool(sec, defaultValue, key, exists,
+    INI_GetFlag(handler, INI_FLAG_IGNORE_CASE));
 }
 
 int INI_GetInt(INI* handler, int defaultValue,
@@ -163,7 +174,8 @@ int INI_GetInt(INI* handler, int defaultValue,
       return false;
     }
 
-  return INI_section_GetInt(sec, defaultValue, key, exists);
+  return INI_section_GetInt(sec, defaultValue, key, exists,
+    INI_GetFlag(handler, INI_FLAG_IGNORE_CASE));
 }
 
 float INI_GetFloat(INI* handler, float defaultValue,
@@ -178,7 +190,8 @@ float INI_GetFloat(INI* handler, float defaultValue,
       return false;
     }
 
-  return INI_section_GetFloat(sec, defaultValue, key, exists);
+  return INI_section_GetFloat(sec, defaultValue, key, exists,
+    INI_GetFlag(handler, INI_FLAG_IGNORE_CASE));
 }
 
 bool INI_AddSection(INI* handler, INI_section* conf)
@@ -189,9 +202,11 @@ bool INI_AddSection(INI* handler, INI_section* conf)
       return false;
     }
 
+  bool ignore_case = INI_GetFlag(handler, INI_FLAG_IGNORE_CASE);
   // Exists, create new one (create new array, or append to array)
   // One pointer more for convinience
-  INI_section** * sections = &handler->sections[((size_t) conf->name[0]) + 1];
+  INI_section** * sections = &handler->sections[((size_t)
+    (ignore_case ? tolower(conf->name[0]) : conf->name[0])) + 1];
   if (!(*sections))
     {
       *sections = (INI_section**) malloc(sizeof(void*) * 2);
@@ -222,7 +237,8 @@ bool INI_SetString(INI* handler,
   if (!sec)
     return false;
 
-  INI_section_SetString(sec, key, value);
+  INI_section_SetString(sec, key, value,
+    INI_GetFlag(handler, INI_FLAG_IGNORE_CASE));
   return true;
 }
 
@@ -234,7 +250,8 @@ bool INI_AddString(INI* handler,
   if (!sec)
     return false;
 
-  return INI_section_AddString(sec, key, value); 
+  return INI_section_AddString(sec, key, value,
+    INI_GetFlag(handler, INI_FLAG_IGNORE_CASE)); 
 }
 
 #ifdef __cplusplus

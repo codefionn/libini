@@ -82,27 +82,41 @@ void INI_section_Free(INI_section* conf)
   if (conf->alloc_type) free ((void*) conf);
 }
 
-INI_pair* INI_section_Get(INI_section* conf, const char * key)
+INI_pair* INI_section_Get(INI_section* conf, const char * key,
+                          bool ignore_case)
 {
-  INI_pair ** pairs = conf->pairs[(size_t) key[0]];
+  INI_pair ** pairs = conf->pairs[(size_t)
+    ignore_case ? tolower(key[0]) : key[0]];
   if (!pairs)
     return NULL;
 
   for (size_t i = 0; pairs[i]; ++i)
     {
-      if (strcmp(pairs[i]->key, key) == 0)
+      if (!ignore_case)
         {
-          // Right pair found. Return pair.
-          return pairs[i];
+          if (strcmp(pairs[i]->key, key) == 0)
+            {
+              // Right pair found. Return pair.
+              return pairs[i];
+            }
+        }
+      else
+        {
+          if (_INI_strcasecmp(pairs[i]->key, key))
+            {
+              // Right pair found. Return pair.
+              return pairs[i];
+            }
         }
     }
   // Nothing found: return NULL.
   return NULL;
 }
 
-const char * INI_section_GetString(INI_section* conf, const char * key)
+const char * INI_section_GetString(INI_section* conf, const char * key,
+                                   bool ignore_case)
 {
-  INI_pair* pair = INI_section_Get(conf, key);
+  INI_pair* pair = INI_section_Get(conf, key, ignore_case);
   if (!pair)
     return NULL;
 
@@ -111,9 +125,9 @@ const char * INI_section_GetString(INI_section* conf, const char * key)
 
 bool INI_section_GetBool(INI_section* conf,
                          bool defaultValue, const char * key,
-                         bool* exists)
+                         bool* exists, bool ignore_case)
 {
-  const char * value = INI_section_GetString(conf, key);
+  const char * value = INI_section_GetString(conf, key, ignore_case);
   if (!value)
     {
       // Set exists to false if not null.
@@ -132,9 +146,9 @@ bool INI_section_GetBool(INI_section* conf,
 
 int INI_section_GetInt(INI_section* conf,
                            int defaultValue, const char * key,
-                           bool* exists)
+                           bool* exists, bool ignore_case)
 {
-  const char * value = INI_section_GetString(conf, key);
+  const char * value = INI_section_GetString(conf, key, ignore_case);
   if (!value)
     {
       // Set exists to false if not null.
@@ -151,9 +165,9 @@ int INI_section_GetInt(INI_section* conf,
 
 float INI_section_GetFloat(INI_section* conf,
                            float defaultValue, const char * key,
-                           bool* exists)
+                           bool* exists, bool ignore_case)
 {
-  const char * value = INI_section_GetString(conf, key);
+  const char * value = INI_section_GetString(conf, key, ignore_case);
   if (!value)
     {
       // Set exists to false if not null.
@@ -169,12 +183,13 @@ float INI_section_GetFloat(INI_section* conf,
 }
 
 void INI_section_SetString(INI_section* conf,
-                           const char * key, const char * value)
+                           const char * key, const char * value,
+                           bool ignore_case)
 {
-  INI_pair* pair = INI_section_Get(conf, key);
+  INI_pair* pair = INI_section_Get(conf, key, ignore_case);
   if (!pair)
     {
-      INI_section_AddString(conf, key, value);
+      INI_section_AddString(conf, key, value, ignore_case);
       return;
     }
 
@@ -182,14 +197,16 @@ void INI_section_SetString(INI_section* conf,
 }
 
 bool INI_section_AddString(INI_section* conf,
-                           const char * key, const char * value)
+                           const char * key, const char * value,
+                           bool ignore_case)
 {
   // Check if already exists. If exists, return false.
-  if (INI_section_Get(conf, key))
+  if (INI_section_Get(conf, key, ignore_case))
     return false;
   // Triple-pointer because we may need to allocate the pointer
   // (created for more convinience)
-  INI_pair *** pairs = &conf->pairs[(size_t) key[0]];
+  INI_pair *** pairs = &conf->pairs[(size_t)
+    ignore_case ? tolower(key[0]) : key[0]];
   if (!(*pairs))
     {
       *pairs = (INI_pair**) malloc(sizeof(void*) * 2);

@@ -295,7 +295,8 @@ bool INI_Read(INI* handle, INI_PFN_READ readfn, void* userdata)
 
           if (token == _INI_INTERPRETER_VALUE && value)
             {
-              if (!INI_section_AddString(current_section, valval, value))
+              if (!INI_section_AddString(current_section, valval, value,
+                  INI_GetFlag(handle, INI_FLAG_IGNORE_CASE)))
                 {
                   _INI_ERROR("Key alread exists.");
                   _INI_AERR fprintf(stderr, "Key: %s\n", valval);
@@ -305,7 +306,8 @@ bool INI_Read(INI* handle, INI_PFN_READ readfn, void* userdata)
             }
           else
             {
-              if (!INI_section_AddString(current_section, valval, ""))
+              if (!INI_section_AddString(current_section, valval, "",
+                   INI_GetFlag(handle, INI_FLAG_IGNORE_CASE)))
                 {
                   _INI_ERROR("Key already exists.");
                   _INI_AERR fprintf(stderr, "Key: %s\n", valval);
