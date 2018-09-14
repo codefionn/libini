@@ -136,7 +136,7 @@ INI_New(&handle);
 INI_ReadFilePath(&handle, "file.ini");
 
 INI_iter it;
-INI_iter_FromHandle(NULL, &handle);
+INI_iter_FromHandle(&it, &handle);
 
 INI_section* section;
 while ((section = INI_iter_NextSection(&it)))
