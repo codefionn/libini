@@ -20,6 +20,7 @@ var ini_8h =
     [ "INI_PFN_WRITE", "group___i_o.html#ga00b741a59a591f4ed3b8b6ff0a48636a", null ],
     [ "INI_section", "group___section.html#ga59fdfebc53ebeb74c8fcf3092533751a", null ],
     [ "_INI_strcasecmp", "ini_8h.html#a0d08c015b604887b85ec3cebb7a20978", null ],
+    [ "_INI_strhash", "ini_8h.html#a27d21d55135446e31f4338c362e12240", null ],
     [ "INI_AddSection", "group___handler.html#ga2a1615e41dc217951b8e388000e52760", null ],
     [ "INI_AddString", "group___handler.html#ga58e2d7ddadf0fc82f48aa703f1bdbc83", null ],
     [ "INI_Free", "group___handler.html#ga8dc2dbc6e466adf232211ec363b57cf2", null ],
