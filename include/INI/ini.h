@@ -684,6 +684,9 @@ INI_pair* INI_iter_NextPair(INI_iter* it);
 INIAPI
 bool _INI_strcasecmp(const char * s0, const char * s1);
 
+INIAPI
+uint8_t _INI_strhash(const char * s, bool ignore_case);
+
 #undef INIAPI
 
 #ifdef __cplusplus

@@ -104,8 +104,8 @@ INI_section* INI_GetSection(INI* handler, const char * section)
   
   bool ignore_case = INI_GetFlag(handler, INI_FLAG_IGNORE_CASE);
   // + 1 because of GLOBAL == 0
-  INI_section* * sections = handler->sections[((size_t)
-    (ignore_case ? tolower(section[0]) : section[0])) + 1];
+	size_t index = (size_t) _INI_strhash(section, ignore_case);
+  INI_section* * sections = handler->sections[index + 1];
   if (!sections)
     return NULL;
   // Search for section
@@ -205,8 +205,8 @@ bool INI_AddSection(INI* handler, INI_section* conf)
   bool ignore_case = INI_GetFlag(handler, INI_FLAG_IGNORE_CASE);
   // Exists, create new one (create new array, or append to array)
   // One pointer more for convinience
-  INI_section** * sections = &handler->sections[((size_t)
-    (ignore_case ? tolower(conf->name[0]) : conf->name[0])) + 1];
+	size_t index = (size_t) _INI_strhash(conf->name, ignore_case);
+  INI_section** * sections = &handler->sections[index + 1];
   if (!(*sections))
     {
       *sections = (INI_section**) malloc(sizeof(void*) * 2);

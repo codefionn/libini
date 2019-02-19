@@ -85,8 +85,8 @@ void INI_section_Free(INI_section* conf)
 INI_pair* INI_section_Get(INI_section* conf, const char * key,
                           bool ignore_case)
 {
-  INI_pair ** pairs = conf->pairs[(size_t)
-    ignore_case ? tolower(key[0]) : key[0]];
+	size_t index = (size_t) _INI_strhash(key, ignore_case);
+  INI_pair ** pairs = conf->pairs[index];
   if (!pairs)
     return NULL;
 
@@ -205,8 +205,8 @@ bool INI_section_AddString(INI_section* conf,
     return false;
   // Triple-pointer because we may need to allocate the pointer
   // (created for more convinience)
-  INI_pair *** pairs = &conf->pairs[(size_t)
-    ignore_case ? tolower(key[0]) : key[0]];
+	size_t index = (size_t) _INI_strhash(key, ignore_case);
+  INI_pair *** pairs = &conf->pairs[index];
   if (!(*pairs))
     {
       *pairs = (INI_pair**) malloc(sizeof(void*) * 2);

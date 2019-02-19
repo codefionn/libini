@@ -21,6 +21,18 @@ bool _INI_strcasecmp(const char * s0, const char * s1)
   return !s0[i] && !s1[i];
 }
 
+uint8_t _INI_strhash(const char * s, bool ignore_case) {
+	uint8_t result = 0;
+	for (size_t i = 0; s[i] != (uint8_t) '\0'; ++i) {
+		if (ignore_case)
+			result += (uint8_t) tolower(s[i]);
+		else
+			result += (uint8_t) s[i];
+	}
+
+	return result;
+}
+
 #ifdef __cplusplus
 }
 #endif
